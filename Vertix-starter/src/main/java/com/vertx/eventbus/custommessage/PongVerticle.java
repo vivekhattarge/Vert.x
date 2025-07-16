@@ -5,7 +5,7 @@ import io.vertx.core.VerticleBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.vertx.eventbus.custommessage.Constants.ADDRESS;
+import static com.vertx.eventbus.custommessage.Constants.CUSTOM_ADDRESS;
 
 public class PongVerticle extends VerticleBase {
 
@@ -13,7 +13,7 @@ public class PongVerticle extends VerticleBase {
   @Override
   public Future<?> start() throws Exception {
     vertx.eventBus().registerDefaultCodec(Pong.class, new LocalMessageCodec<>(Pong.class));
-    vertx.<Ping>eventBus().consumer(ADDRESS,handler ->{
+    vertx.eventBus().consumer(CUSTOM_ADDRESS, handler ->{
       logger.debug("Received Message : {}",handler.body());
       handler.reply(new Pong(0));
     }).exceptionHandler(exception ->{
